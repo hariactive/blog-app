@@ -1,0 +1,185 @@
+first we have to make urls.py 
+
+django is mvt
+model 
+views       controllers
+template    template is used to generate httpresonse dynamically unlike we used to generate static response like this 
+def contact(request):
+    return HttpResponse("<center><h1>This is the Contact </h1></center>")
+
+till now we completed views and template lets look at models
+models - whatever we do with database we do using models 
+first we configure using settings
+
+Django follows DRY principle -- mtlb tamam files jinka purpose kaam alg hai dusri file se hatkar hai 
+
+database tables in django are called models
+    -model name must be singular    -User => users
+    -Model name must start with capital letter
+    -Models inherit (models.Model)
+    -In django when we create table in models it by default create primary key id field (uniquely identify)
+    - when we create model then uske corresponding script create hota hai 
+    - Model -> Script (it can be any database language like sql etc.) these things we call it as migrations
+    - In second step we run migrations migrations => RUN  
+    - now after python manage.py migrate command 
+    - we can check that databases create 1 admin panel 2 using API
+    - now we can write our queries in python manage.py shell
+            inserting database records using API
+            - from Student.models import *
+            - object = Student()
+            - object.name="hari"
+            - object.age=89
+            - object.address = "haridwar"
+            - object.save()
+
+            newobj = Student(name="harik",age=89,address="daha")
+            newobj.save()
+    - Fetch records using ORM
+        - from student.models import *
+        student.objects.all -
+        student.objects.all()
+        student.objects.filter(age='89')
+        student.objects.filter(name = "Hari")   this is in sql same as Select * from students where name ="Hari"
+    -update records using ORM
+        -   from students.models import *
+            student.objects.all()
+            in sql we use - UPDATE Student set name="KUmar" where age =23 but in django shell 
+            student.objects.filter(age =23).update(name="KUmar")
+    -delete records using ORM
+        -student.objects.filter(age=23).delete()
+
+        model methods /Functions
+            - to get menaningfull data in shell
+
+    -removing hardcoded urls to get the page load after hyperlink like contact us or about us 
+
+    --use of static file in django
+    python manage.py collectstatic
+
+128 static files copied to 'D:\Scrapping\Google\harid\hari\static'.
+=================================================================
+
+-- {% load static %}
+
+        <center>
+                <img src="{% static 'tota.jpg' %}"/>
+        </center>
+=================================================================
+    -   
+
+
+
+
+
+
+
+
+Here’s an extended version of your notes with more detailed explanations:
+
+### First, we have to make `urls.py`:
+- **Expanded**: In Django, `urls.py` is responsible for mapping URLs to specific views. You define URL patterns in this file so that when a user requests a URL, Django knows which view to call and render a response. The typical structure includes importing `path` and connecting views to URL patterns.
+
+---
+
+### Django is MVT:
+- **Model-View-Template** (MVT) is the design pattern Django follows. It is similar to the MVC (Model-View-Controller) pattern, but Django uses "Template" instead of "Controller" for rendering dynamic content.
+  - **Model**: Represents the data structure and is responsible for database interactions.
+  - **Views**: Handle the business logic and act as controllers.
+  - **Template**: Handles presentation logic and generates dynamic HTML by taking data from views.
+
+---
+
+### Template:
+- **Expanded**: Templates are used to generate dynamic `HttpResponse`. Unlike static HTML, Django templates allow you to render dynamic content by embedding Python-like syntax within HTML using tags like `{% %}` and `{{ }}`. For example:
+    ```python
+    def contact(request):
+        return HttpResponse("<center><h1>This is the Contact </h1></center>")
+    ```
+  In real-world apps, templates allow you to separate content from the code and work more easily with dynamic data.
+
+---
+
+### Models:
+- **Expanded**: Models are Django’s way of interacting with databases. You don't write raw SQL queries; instead, you define models in Python, and Django automatically translates them into the appropriate database schema. Models are defined as Python classes and typically inherit from `models.Model`. They map directly to database tables and are a critical part of the MVC/MVT structure.
+
+- **Database tables in Django are called models**:
+  - Models in Django define the structure of your database tables.
+  - **Singular model name**: The model class name must be singular, e.g., `User`, which Django translates into a table with a pluralized name, such as `users`.
+  - **Capital letter**: Model names always start with a capital letter because they are classes.
+  - **Primary key**: Django automatically creates a primary key field (`id`) unless you explicitly define it.
+
+- **Migrations**:
+  - Migrations are Python scripts that Django generates to alter your database schema based on changes you make to your models.
+  - After defining your models, you run `python manage.py makemigrations` to create migration files.
+  - Then, `python manage.py migrate` applies those migrations, creating or updating database tables accordingly.
+  
+---
+
+### Inserting and fetching data:
+- **Expanded**: You can interact with your models using the Django ORM (Object-Relational Mapping) instead of writing raw SQL.
+  - **Inserting records**:
+    ```python
+    from Student.models import Student
+    obj = Student(name="Hari", age=89, address="Haridwar")
+    obj.save()  # Saves to the database
+    ```
+    This is the equivalent of SQL's `INSERT INTO` statement.
+  - **Fetching records**:
+    - `Student.objects.all()` retrieves all records from the `Student` table.
+    - `Student.objects.filter(name="Hari")` filters records, equivalent to `SELECT * FROM student WHERE name="Hari"` in SQL.
+    
+---
+
+### Updating records using ORM:
+- **Expanded**: Updating records using Django ORM simplifies SQL update queries.
+    ```python
+    Student.objects.filter(age=23).update(name="Kumar")
+    ```
+    This is equivalent to `UPDATE Student SET name="Kumar" WHERE age=23;` in SQL.
+  
+---
+
+### Deleting records using ORM:
+- **Expanded**: Deleting records is as simple as calling `.delete()` on a queryset:
+    ```python
+    Student.objects.filter(age=23).delete()
+    ```
+    This is equivalent to `DELETE FROM Student WHERE age=23;` in SQL.
+
+---
+
+### Model Methods / Functions:
+- **Expanded**: Django allows you to define custom methods on your models to return more meaningful or formatted data. For example, you can define a `__str__` method in a model to return a readable string representation of an object when printing it in the shell.
+
+    ```python
+    class Student(models.Model):
+        name = models.CharField(max_length=100)
+        
+        def __str__(self):
+            return f"{self.name} (ID: {self.id})"
+    ```
+    This helps when inspecting records in the shell, providing more human-readable output.
+
+---
+
+### Removing hardcoded URLs:
+- **Expanded**: Hardcoding URLs can be problematic, especially when changing URL patterns across a large project. Django provides the `{% url %}` template tag to dynamically generate URLs from view names. This makes your templates flexible and future-proof, as you don’t need to update URLs across multiple files when they change.
+
+---
+
+### Use of Static Files in Django:
+- **Expanded**: Static files (like CSS, JavaScript, and images) are files that don't change and are needed for rendering pages correctly. Django manages these using the `STATIC_URL` and `STATICFILES_DIRS` settings. The command `python manage.py collectstatic` collects all static files from your app into a single location for production.
+
+---
+
+### `{% load static %}`:
+- **Expanded**: This tag tells Django that you are going to use static files in your template. The `{% static 'path_to_file' %}` tag is used to load static resources like images, CSS, or JavaScript.
+    ```html
+    <center>
+        <img src="{% static 'tota.jpg' %}"/>
+    </center>
+    ```
+
+This workflow ensures that your application remains DRY (Don't Repeat Yourself) and easy to maintain. Django's powerful ORM, template system, and built-in security measures, like CSRF tokens, provide a robust framework for building scalable applications.
+
+Let me know if you'd like further clarification on any point!

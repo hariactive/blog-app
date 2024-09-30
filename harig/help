@@ -1,0 +1,33 @@
+Sure! Here's a more detailed explanation behind each of the statements you provided:
+
+### CSRF Token:
+- **Original Statement**: CSRF token - it is used to prevent from getting your form submitted by a hacker or anyone from using your source code. It can be submitted if CSRF token is not present.
+  
+- **Expanded**: CSRF (Cross-Site Request Forgery) token is a security measure in Django that prevents unauthorized users or malicious websites from submitting forms on behalf of logged-in users without their knowledge. Without a CSRF token, attackers could exploit a user's active session by submitting forms (like changing passwords or transferring funds) from their own malicious sites. Django generates a unique CSRF token for every form request, which must be submitted along with the form data to verify that the request is coming from a trusted source.
+
+---
+
+### Flash Message in Django:
+- **Original Statement**: The response we are getting against our request is valid or invalid.
+  
+- **Expanded**: Flash messages in Django provide a way to inform users about the result of their actions (such as submitting a form). For example, you can display a success message when a form is submitted successfully or an error message if the submission fails. Flash messages use Django’s `messages` framework, which stores temporary messages that are rendered to the user after a redirect. These messages can be accessed in the template and automatically disappear after they are displayed once, ensuring a seamless user experience.
+
+---
+
+### Sessions:
+- **Original Statement**: Sessions help to block redirecting.
+
+- **Expanded**: Sessions in Django store data across requests for a particular user. They help maintain the state of a user’s interaction with the application, such as whether they are logged in or have specific preferences saved. With sessions, the server can track user activity across multiple requests, ensuring the user stays logged in until they log out explicitly. This prevents unnecessary redirects or asking the user to log in again after each request. Sessions use a unique session ID stored in the user's browser (often as a cookie) and linked to session data on the server.
+
+---
+
+This should give you more context around CSRF tokens, flash messages, and sessions. Let me know if you'd like more clarification on any of these topics!
+
+
+
+
+run this command after setting up the static and media folder files 
+python manage.py collectstatic 
+
+custom tags --> read more button  -- we create for our purposes custom templates 
+
